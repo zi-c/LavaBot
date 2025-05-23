@@ -53,14 +53,15 @@ class MyWebSocket:
         print(cmd_time() + "System: 连接已打开")
 
     def on_message(self, ws, message):
-        #print(cmd_time() + "System: 收到消息")
-        #print(cmd_time() + "System: 收到消息:", message)
-
         # 处理消息(多线程)
-        Thread_Pool.submit(aichat.core, message)
-        Thread_Pool.submit(pingpong.core, message)
-        Thread_Pool.submit(stat.core, message)
-        Thread_Pool.submit(headhunts.core, message)
+        if aichat_set == True:
+            Thread_Pool.submit(aichat.core, message)
+        if pingpong_set == True:
+            Thread_Pool.submit(pingpong.core, message)
+        if stat_set == True:
+            Thread_Pool.submit(stat.core, message)
+        if headhunts_set == True:
+            Thread_Pool.submit(headhunts.core, message)
 
     def on_error(self, ws, error):
         print(cmd_time() + "System: 发生错误:", error)
